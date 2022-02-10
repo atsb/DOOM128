@@ -613,8 +613,8 @@ extern int rndindex;
 extern int gametic, maketic;
 extern	int        	nettics[MAXNETNODES];
 
-#define SAVEGAMESIZE 0x2c0000 * 16 //DOOM1024 LIMITS
-#define SAVESTRINGSIZE 32 //DOOM1024 LIMITS
+#define SAVEGAMESIZE 0x2c0000 * 16 //DOOM128 LIMITS
+#define SAVESTRINGSIZE 32 //DOOM128 LIMITS
 extern byte *savebuffer;
 extern byte *save_p;
 

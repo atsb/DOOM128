@@ -61,7 +61,7 @@ extern	int	levelTimeCount;
 //
 //	Animating line specials
 //
-#define	MAXLINEANIMS		16384 * 16 //DOOM1024 LIMITS
+#define	MAXLINEANIMS		16384 * 16 //DOOM128 LIMITS
 extern	short	numlinespecials;
 extern	line_t	*linespeciallist[MAXLINEANIMS];
 
@@ -246,7 +246,7 @@ typedef struct
 
 #define	PLATWAIT	3
 #define	PLATSPEED	FRACUNIT
-#define	MAXPLATS	7680 * 16 //DOOM1024 LIMITS
+#define	MAXPLATS	7680 * 16 //DOOM128 LIMITS
 
 extern	plat_t	*activeplats[MAXPLATS];
 
