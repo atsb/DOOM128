@@ -13,10 +13,17 @@ Please note, DOOM128.EXE binaries are built using the original DMX library.  You
 
 # Limits
 MAXVISSPRITES    1024 * 16
+
 SAVESTRINGSIZE 32
+
 MAXLINEANIMS        16384 * 16
+
 MAXPLATS    7680 * 16
+
 MAXVISPLANES    1024 * 16
+
 MAXOPENINGS        SCREENWIDTH*256 * 16
+
 MAXDRAWSEGS        2048 * 16
+
 MAXVISSPRITES    1024 * 16
