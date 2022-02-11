@@ -35,10 +35,15 @@ SAVEGAMESIZE 0x2c0000 * 16
 The most important part!  DOOM128 would not be possible without the folks below.
 
 These two with their gamesrc recreation:
+
 NY00123
+
 nukeykt
+
 https://bitbucket.org/gamesrc-ver-recreation/
 
-Special Mentions
+Special Mentions:
+
 PVS
+
 ETTiNGRiNDER
