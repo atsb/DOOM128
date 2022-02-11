@@ -349,6 +349,7 @@ void R_DrawMaskedColumn (column_t *column)
 	}
 
 	dc_texturemid = basetexturemid;
+	dc_texheight = 0;
 }
 
 

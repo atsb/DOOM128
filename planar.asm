@@ -55,28 +55,6 @@ pixelcount	dd	0
 ;
 ;================
 
-PROC   R_DrawColumnLow_
-PUBLIC   R_DrawColumnLow_
-	PUSHR
-	mov		ebp,[_dc_yl]
-	cmp		ebp,[_dc_yh]
-	jg		done
-	lea		edi,[ebp+ebp*8]
-	add		edi,ebp
-	shl		edi,3
-	mov		ebx,[_dc_x]
-	mov		ecx,ebx
-	shr		ebx,1
-	add		edi,ebx
-	add		edi,[_destview]
-	and		ecx,1
-	shl		ecx,1
-	mov		eax,3
-	shl		eax,cl
-	mov		edx,SC_INDEX+1
-	out		dx,al
-	jmp		cdraw
-ENDP
 ALIGN 16
 PROC   R_DrawColumn_
 PUBLIC   R_DrawColumn_

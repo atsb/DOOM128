@@ -392,6 +392,7 @@ void R_DrawPlanes (void)
 			dc_iscale = pspriteiscale>>detailshift;
 			dc_colormap = colormaps;// sky is allways drawn full bright
 			dc_texturemid = skytexturemid;
+			dc_texheight = textureheight[skytexture]>>FRACBITS;
 			for (x=pl->minx ; x <= pl->maxx ; x++)
 			{
 				dc_yl = pl->top[x];

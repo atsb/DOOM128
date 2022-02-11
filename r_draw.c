@@ -59,6 +59,7 @@ int				dc_yl;
 int				dc_yh;
 fixed_t			dc_iscale;
 fixed_t			dc_texturemid;
+int             dc_texheight;
 byte			*dc_source;		// first pixel in a column (possibly virtual)
 
 int				dccount;		// just for profiling
@@ -97,18 +98,17 @@ void R_DrawColumn (void)
 #endif		// __i386
 #endif
 
-#ifndef __WATCOMC__
-#ifndef __i386
-#ifndef __m68k
 void R_DrawColumnLow (void)
 {
-	int			count;
-	byte		*dest;
-	fixed_t		frac, fracstep;	
+    int       count = dc_yh - dc_yl + 1;
+    int       heightmask = dc_texheight-1;
+    byte     *dest;
+    fixed_t   frac;
 
-	count = dc_yh - dc_yl;
-	if (count < 0)
-		return;
+    if (count <= 0)  // Zero length, column does not exceed a pixel.
+    {
+        return;
+    }
 				
 #ifdef RANGECHECK
 	if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0 || dc_yh >= SCREENHEIGHT)
@@ -116,21 +116,63 @@ void R_DrawColumnLow (void)
 //	dccount++;
 #endif
 
-	dest = ylookup[dc_yl] + columnofs[dc_x]; 
-	
-	fracstep = dc_iscale;
-	frac = dc_texturemid + (dc_yl-centery)*fracstep;
+    // [JN] Write bytes to the graphical output
+    if (dc_x & 1)
+    {
+        outp (SC_INDEX+1,12);
+    }
+    else
+    {
+        outp (SC_INDEX+1,3);
+    }
 
-	do
-	{
-		*dest = dc_colormap[dc_source[(frac>>FRACBITS)&127]];
-		dest += SCREENWIDTH;
-		frac += fracstep;
-	} while (count--);
+    dest = destview + dc_yl*80 + (dc_x>>1);
+    frac = dc_texturemid + (dc_yl-centery)*dc_iscale;
+
+    if (dc_texheight & heightmask)   // not a power of 2 -- killough
+    {
+        heightmask++;
+        heightmask <<= FRACBITS;
+
+        if (frac < 0)
+          while ((frac += heightmask) < 0);
+        else
+          while (frac >= heightmask)
+                 frac -= heightmask;
+
+        do
+        {
+            // Re-map color indices from wall texture column
+            //  using a lighting/special effects LUT.
+
+            // heightmask is the Tutti-Frutti fix -- killough
+
+            *dest = dc_colormap[dc_source[(frac>>FRACBITS)&127]];
+            dest += SCREENWIDTH/4;
+            if ((frac += dc_iscale) >= heightmask)
+            {
+                frac -= heightmask;
+            }
+        } while (--count);
+    }
+    else
+    {
+        while ((count-=2)>=0)   // texture height is a power of 2 -- killough
+        {
+            *dest = dc_colormap[dc_source[(frac>>FRACBITS) & heightmask]];
+            dest += SCREENWIDTH/4;
+            frac += dc_iscale;
+            *dest = dc_colormap[dc_source[(frac>>FRACBITS) & heightmask]];
+            dest += SCREENWIDTH/4;
+            frac += dc_iscale;
+        }
+
+        if (count & 1)
+        {
+            *dest = dc_colormap[dc_source[(frac>>FRACBITS) & heightmask]];
+        }
+    }
 }
-#endif		// __m68k
-#endif		// __i386
-#endif
 
 
 #define FUZZTABLE	50
