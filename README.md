@@ -31,7 +31,6 @@ MAXSEGS (SCREENWIDTH / 2 + 1) * SCREENHEIGHT
 SAVEGAMESIZE 0x2c0000 * 16
 
 # Credits
-
 The most important part!  DOOM128 would not be possible without the folks below.
 
 These two with their gamesrc recreation:
@@ -57,3 +56,6 @@ Borrowed code from some awesome people:
 Fabian (Crispy Doom)
 
 Julia (Russian Doom)
+
+# Contributing
+Fork, PR and it'll be merged if it is awesome.  Afterall, having the 'ultimate executable hack' is the goal! 
