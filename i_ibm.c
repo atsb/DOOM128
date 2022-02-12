@@ -1377,18 +1377,18 @@ byte *I_ZoneBase (int *size)
 	int386x( 0x31, &regs, &regs, &segregs );
 
 	heap = meminfo[0];
-	printf ("DPMI memory: 0x%x",heap);
+	printf ("DPMI memory (MB): %d",heap);
 
 	do
 	{
-		heap -= 0x20000;                // leave 64k alone
-		if (heap > 0x800000)
-			heap = 0x800000;
+		heap -= 8388608; // [AB] equals 8 MB.
+		if (heap > 8388608)
+			heap = 8388608;
 		ptr = malloc (heap);
 	} while (!ptr);
 
-	printf (", 0x%x allocated for zone\n", heap);
-	if (heap < 0x180000)
+	printf (", %d MB allocated for zone\n", heap);
+	if (heap < 131072)
 	{
 		printf ("\n");
 		printf ("Insufficient memory!  You need to have at least 3.7 megabytes of total\n");
