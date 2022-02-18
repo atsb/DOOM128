@@ -159,7 +159,7 @@ void Z_Free (void *ptr)
 ========================
 */
 
-#define MINFRAGMENT	4096 * SCREENHEIGHT
+#define MINFRAGMENT	64
 
 void *Z_Malloc (int size, int tag, void *user)
 {
