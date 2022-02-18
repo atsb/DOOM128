@@ -337,11 +337,9 @@ void ST_updateFaceWidget(void)
     {
       // being attacked
       priority = 7;
-	// [crispy] show "Ouch Face" as intended
-      if (st_oldhealth - plyr->health > ST_MUCHPAIN)
+
+      if (plyr->health - st_oldhealth > ST_MUCHPAIN)
       {
-	// [crispy] raise "Ouch Face" priority
-	priority = 8;
 	st_facecount = ST_TURNCOUNT;
 	st_faceindex = ST_calcPainOffset() + ST_OUCHOFFSET;
       }
