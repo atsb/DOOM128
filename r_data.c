@@ -112,7 +112,7 @@ void R_DrawColumnInCache (column_t *patch, byte *cache, int originy, int cachehe
 		if (position + count > cacheheight)
 			count = cacheheight - position;
 		if (count > 0)
-			memcpy (cache + position, source, count);
+			memcpy (cache + position, (byte *)patch + 3, count);
 		
 		patch = (column_t *)(  (byte *)patch + patch->length+ 4);
 	}
