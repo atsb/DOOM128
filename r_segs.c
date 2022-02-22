@@ -141,15 +141,12 @@ void R_RenderMaskedSegRange (drawseg_t *ds, int x1, int x2)
 			sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 			dc_iscale = 0xffffffffu / (unsigned)spryscale;
 
-	//
-	// draw the texture
-	//
-			col = (column_t *)(
-				(byte *)R_GetColumn(texnum,maskedtexturecol[dc_x]) -3);
-
-			R_DrawMaskedColumn (col);
-			maskedtexturecol[dc_x] = MAXSHORT;
-		}
+        // draw the texture
+        col = (column_t *)((byte *)
+                           R_GetColumn(texnum,maskedtexturecol[dc_x]) - 3);
+        R_DrawMaskedColumn (col);
+        maskedtexturecol[dc_x] = MAXSHORT;
+      }
 		spryscale += rw_scalestep;
 	}
 
