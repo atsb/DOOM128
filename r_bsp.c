@@ -58,7 +58,7 @@ void R_ClearDrawSegs (void)
 
 typedef	struct
 {
-	int	first, last;
+	short	first, last;
 } cliprange_t;
 
 #define	MAXSEGS (SCREENWIDTH / 2 + 1) * SCREENHEIGHT
@@ -79,16 +79,12 @@ void R_ClipSolidWallSegment (int first, int last)
 	{
 		if (last < start->first-1)
 		{	// post is entirely visible (above start), so insert a new clippost
-			R_StoreWallRange (first, last);
-			next = newend;
-			newend++;
-			while (next != start)
-			{
-				*next = *(next-1);
-				next--;
-			}
-			next->first = first;
-			next->last = last;
+			R_StoreWallRange(first, last);
+
+			// 1/11/98 killough: performance tuning using fast memmove
+			memmove(start + 1, start, (++newend - start) * sizeof(*start));
+			start->first = first;
+			start->last = last;
 			return;
 		}
 		
@@ -187,11 +183,11 @@ void R_ClipPassWallSegment (int first, int last)
 
 void R_ClearClipSegs (void)
 {
-	solidsegs[0].first = -0x7fffffff;
+    solidsegs[0].first = -0x7fff; // ffff;    new short limit --  killough
 	solidsegs[0].last = -1;
 	solidsegs[1].first = viewwidth;
-	solidsegs[1].last = 0x7fffffff;
-	newend = solidsegs+2;
+    solidsegs[1].last = 0x7fff; // ffff;      new short limit --  killough
+    newend = solidsegs + 2;
 }
 
 
