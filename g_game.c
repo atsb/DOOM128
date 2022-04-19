@@ -102,7 +102,6 @@ int             key_fire, key_use, key_strafe, key_speed;
 
 int             mousebfire;
 int             mousebstrafe;
-int             mousebforward;
 
 int             joybfire;
 int             joybstrafe;
@@ -128,7 +127,7 @@ int             turnheld;                   // for accelerative turning
 boolean         mousearray[4];
 boolean         *mousebuttons = &mousearray[1];
 	// allow [-1]
-int             mousex, mousey;             // mouse values are used once
+int             mousex;            // mouse values are used once
 int             dclicktime, dclickstate, dclicks;
 int             dclicktime2, dclickstate2, dclicks2;
 
@@ -282,40 +281,6 @@ void G_BuildTiccmd (ticcmd_t *cmd)
 	}
 
 //
-// mouse
-//
-	if (mousebuttons[mousebforward])
-	{
-		forward += forwardmove[speed];
-	}
-
-//
-// forward double click
-//
-	if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1 )
-	{
-		dclickstate = mousebuttons[mousebforward];
-		if (dclickstate)
-			dclicks++;
-		if (dclicks == 2)
-		{
-			cmd->buttons |= BT_USE;
-			dclicks = 0;
-		}
-		else
-			dclicktime = 0;
-	}
-	else
-	{
-		dclicktime += ticdup;
-		if (dclicktime > 20)
-		{
-			dclicks = 0;
-			dclickstate = 0;
-		}
-	}
-
-//
 // strafe double click
 //
 	bstrafe = mousebuttons[mousebstrafe]
@@ -343,13 +308,12 @@ void G_BuildTiccmd (ticcmd_t *cmd)
 		}
 	}
 
-	forward += mousey;
 	if (strafe)
 		side += mousex*2;
 	else
 		cmd->angleturn -= mousex*0x8;
 
-	mousex = mousey = 0;
+	mousex = 0;
 
 	if (forward > MAXPLMOVE)
 		forward = MAXPLMOVE;
@@ -430,7 +394,7 @@ void G_DoLoadLevel (void)
 
 	memset (gamekeydown, 0, sizeof(gamekeydown));
 	joyxmove = joyymove = 0;
-	mousex = mousey = 0;
+	mousex = 0;
 	sendpause = sendsave = paused = false;
 	memset (mousebuttons, 0, sizeof(mousebuttons));
 	memset (joybuttons, 0, sizeof(joybuttons));
@@ -538,7 +502,6 @@ boolean G_Responder(event_t *ev)
 			mousebuttons[1] = ev->data1&2;
 			mousebuttons[2] = ev->data1&4;
 			mousex = ev->data2*(mouseSensitivity+5)/10;
-			mousey = ev->data3*(mouseSensitivity+5)/10;
 			return(true); // eat events
 
 		case ev_joystick:

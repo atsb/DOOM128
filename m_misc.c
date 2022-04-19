@@ -256,7 +256,6 @@ extern	int		key_invleft, key_invright, key_useartifact;
 
 extern  int         mousebfire;
 extern  int         mousebstrafe;
-extern  int         mousebforward;
 
 extern  int         joybfire;
 extern  int         joybstrafe;
@@ -351,7 +350,6 @@ default_t defaults[] =
 	{"use_mouse", &usemouse, 1},
 	{"mouseb_fire", &mousebfire, 0},
 	{"mouseb_strafe", &mousebstrafe, 1},
-	{"mouseb_forward", &mousebforward, 2},
 
 	{"use_joystick", &usejoystick, 0},
 	{"joyb_fire", &joybfire, 0},
